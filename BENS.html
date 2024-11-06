@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informações dos Bens</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <h1>Informações dos Bens</h1>
+    <table id="dadosBens">
+        <thead>
+            <tr>
+                <!-- Cabeçalhos das colunas -->
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Dados dos bens -->
+        </tbody>
+    </table>
+
+    <script>
+        const apiUrl = 'https://script.google.com/macros/s/AKfycbxRBTFekXEns0BRDNr6sSOCS901ZXC-_zBD9Qcc_4VMiurbrvHbqay4AEReKzCDIGyw/exec'; // Substitua pela URL da sua API
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const tableHead = document.querySelector('#dadosBens thead tr');
+                const tableBody = document.querySelector('#dadosBens tbody');
+
+                // Adicionar cabeçalhos
+                if(data.length > 0) {
+                    Object.keys(data[0]).forEach(key => {
+                        let th = document.createElement('th');
+                        th.innerText = key;
+                        tableHead.appendChild(th);
+                    });
+
+                    // Adicionar dados
+                    data.forEach(item => {
+                        let tr = document.createElement('tr');
+                        Object.values(item).forEach(value => {
+                            let td = document.createElement('td');
+                            td.innerText = value;
+                            tr.appendChild(td);
+                        });
+                        tableBody.appendChild(tr);
+                    });
+                }
+            })
+            .catch(error => console.error('Erro ao carregar os dados:', error));
+    </script>
+</body>
+</html>
